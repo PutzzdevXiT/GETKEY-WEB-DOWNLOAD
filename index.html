@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ambil Key</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
+<style>
+body{
+  background:#050b18;
+  font-family:Orbitron;
+  color:#0ff;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+}
+.box{
+  background:#07142d;
+  padding:25px;
+  border-radius:15px;
+  width:300px;
+  text-align:center;
+  box-shadow:0 0 20px #0ff;
+}
+select,button,input{
+  width:100%;
+  padding:12px;
+  margin-top:10px;
+  border-radius:8px;
+  border:none;
+}
+button{
+  background:#0ff;
+  font-weight:bold;
+}
+input{
+  text-align:center;
+  font-weight:bold;
+}
+</style>
+</head>
+<body>
+
+<div class="box">
+  <h2>🔑 AMBIL KEY</h2>
+
+  <select id="daySelect">
+    <option value="1">1 DAY</option>
+    <option value="2">2 DAY</option>
+    <option value="3">3 DAY</option>
+  </select>
+
+  <button onclick="ambilKey()">AMBIL</button>
+
+  <input id="hasilKey" placeholder="KEY AKAN MUNCUL" readonly>
+</div>
+
+<script>
+const KEY_URL = "https://raw.githubusercontent.com/PutzzdevXiT/sefelink-by-putzz/main/key.json";
+
+async function ambilKey(){
+  try{
+    const res = await fetch(KEY_URL);
+    const data = await res.json();
+
+    const day = document.getElementById("daySelect").value;
+    const item = data.duration_keys.find(k => k.days == day);
+
+    if(!item){
+      alert("Key tidak tersedia");
+      return;
+    }
+
+    document.getElementById("hasilKey").value = item.key;
+
+  }catch(err){
+    alert("Gagal ambil data");
+    console.error(err);
+  }
+}
+</script>
+
+</body>
+</html>
